@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  body {
+    @apply bg-arcSand text-arcBlack font-body text-[17px] leading-[1.6] antialiased transition-colors duration-300 md:text-[18px] dark:bg-arcDarkBg dark:text-arcDarkText;
+    background-image: radial-gradient(circle at 10px 10px, rgba(0, 0, 0, 0.08) 1.5px, transparent 0), radial-gradient(circle at 25px 25px, rgba(0, 0, 0, 0.04) 1px, transparent 0);
+    background-size: 32px 32px;
+  }
+  .dark body,
+  body.dark {
+    background-image: none;
+  }
+  ::selection {
+    @apply bg-mint text-arcBlack;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .card-brutal {
+    @apply rounded-[30px] border-[3px] border-arcBlack bg-white shadow-brutalLight transition-all duration-200 dark:border-mint/40 dark:bg-arcDarkSurface dark:text-arcDarkText dark:shadow-brutalDark;
+  }
+  .button-brutal {
+    @apply border-[3px] border-arcBlack bg-mint text-arcBlack font-display text-base uppercase tracking-wide px-5 py-3 rounded-2xl shadow-brutalAccentSand transition-transform duration-150 ease-out hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-mint/40 disabled:opacity-60 dark:border-mint/50 dark:bg-mint dark:text-arcDarkBg dark:shadow-brutalDark;
+  }
+  .surface-muted {
+    @apply rounded-[30px] border-[3px] border-arcBlack bg-white/90 shadow-brutalLight dark:border-mint/40 dark:bg-arcDarkSurface/80 dark:shadow-brutalDark;
+  }
+}
+
+@layer utilities {
+  .bg-noise {
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="2" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.12"/%3E%3C/svg%3E');
+  }
+  .dark\:bg-arcDarkSurface:is(.dark *) {
+    --tw-bg-opacity: 1;
+    background-color: rgb(41 41 41);
+  }
+  .dark\:border-white:is(.dark *) {
+    --tw-border-opacity: 1;
+    border-color: rgb(80 80 80) !important;
+  }
+}
