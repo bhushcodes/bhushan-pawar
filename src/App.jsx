@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { FaCss3Alt, FaEnvelope, FaGithub, FaHtml5, FaInstagram, FaLinkedinIn, FaPython, FaReact } from 'react-icons/fa'
 import { MdOutlineRocketLaunch } from 'react-icons/md'
 import { PiMoonBold, PiSunBold } from 'react-icons/pi'
@@ -88,8 +88,8 @@ const projects = [
     problem: 'Designed orbit animations and made them mobile-friendly.',
     role: 'Added accessibility features for better usability.',
     outcome: 'Result: doubled student engagement and became the most revisited demo.',
-    code: 'https://github.com/bhushanpawar/dynamic-solar-system',
-    live: 'https://bhushandev.me/dynamic-solar-system',
+    code: 'https://github.com/bhushcodes/solar-system-orbit-playground',
+    live: 'https://bhushcodes.github.io/solar-system-orbit-playground/',
   },
   {
     id: 'chess-bot',
@@ -99,8 +99,9 @@ const projects = [
     problem: 'Wrote search algorithms and clear, step-by-step hints so practice stays transparent.',
     role: 'Built CLI tooling and messaging so learners can stay focused while they experiment.',
     outcome: 'Result: reduced analysis time by 40% and onboarded 20+ testers easily.',
-    code: 'https://github.com/bhushanpawar/bhushanchessbot',
-    live: 'https://bhushandev.me/bhushanchessbot',
+    code: null,
+    live: 'https://lichess.org/@/BhushanChessBot',
+    buttonAlignment: 'center',
   },
   {
     id: 'chess-academy',
@@ -110,8 +111,8 @@ const projects = [
     problem: 'Created a responsive layout that works beautifully on all devices.',
     role: 'Improved course visibility and accessibility (98 Lighthouse score).',
     outcome: 'Result: helped increase newsletter sign-ups by 1.4x.',
-    code: 'https://github.com/bhushanpawar/chess-academy',
-    live: 'https://bhushandev.me/chess-academy',
+    code: 'https://github.com/bhushcodes/bhushan-chess-academy',
+    live: 'https://bhushcodes.github.io/bhushan-chess-academy/',
   },
 ]
 
@@ -135,7 +136,12 @@ const socialLinks = [
 
 function Section({ id, eyebrow, title, description, children }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="space-y-6 scroll-mt-24">
+    <section
+      id={id}
+      aria-labelledby={`${id}-title`}
+      className="space-y-6"
+      style={{ scrollMarginTop: 'calc(var(--header-offset, 96px) + 24px)' }}
+    >
       <header className="space-y-1">
         <p className="text-xs font-display uppercase tracking-[0.35em] text-arcBlack/80 dark:text-white">{eyebrow}</p>
         <h2 id={`${id}-title`} className="text-3xl font-display text-arcBlack sm:text-4xl dark:text-white">
@@ -151,12 +157,29 @@ function Section({ id, eyebrow, title, description, children }) {
 }
 
 function App() {
+  const formatISTTime = useMemo(() => {
+    const formatter = new Intl.DateTimeFormat('en-IN', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+      timeZone: 'Asia/Kolkata',
+    })
+    return (date) => {
+      const parts = formatter.formatToParts(date)
+      const get = (type) => parts.find((part) => part.type === type)?.value ?? '--'
+      const dayPeriod = get('dayPeriod').toLowerCase()
+      return `${get('hour')}:${get('minute')}:${get('second')} ${dayPeriod} IST`
+    }
+  }, [])
   const [isDark, setIsDark] = useState(() => {
     if (typeof window === 'undefined') return false
     const stored = window.localStorage.getItem('bhushan-theme')
     if (stored) return stored === 'dark'
     return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
   })
+  const headerRef = useRef(null)
+  const [currentTime, setCurrentTime] = useState(() => formatISTTime(new Date()))
   const [formStatus, setFormStatus] = useState('idle')
   const [formFeedback, setFormFeedback] = useState('')
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
@@ -171,6 +194,30 @@ function App() {
 
   useEffect(() => {
     window.localStorage.setItem('bhushan-theme', isDark ? 'dark' : 'light')
+  }, [isDark])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined
+    const tick = () => setCurrentTime(formatISTTime(new Date()))
+    tick()
+    const interval = window.setInterval(tick, 1000)
+    return () => window.clearInterval(interval)
+  }, [formatISTTime])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined
+    const updateOffset = () => {
+      if (!headerRef.current) return
+      const offset = headerRef.current.offsetHeight
+      document.documentElement.style.setProperty('--header-offset', `${offset}px`)
+    }
+    updateOffset()
+    window.addEventListener('resize', updateOffset)
+    return () => window.removeEventListener('resize', updateOffset)
+  }, [])
+  useEffect(() => {
+    if (!headerRef.current) return
+    document.documentElement.style.setProperty('--header-offset', `${headerRef.current.offsetHeight}px`)
   }, [isDark])
 
   const handleInputChange = (field) => (event) => {
@@ -213,10 +260,13 @@ function App() {
 
   return (
     <div className="min-h-screen bg-arcSand text-arcBlack transition-colors dark:bg-arcDarkBg dark:text-white">
-      <header className="border-b-[3px] border-arcBlack bg-arcSand/70 backdrop-blur-md dark:border-white dark:bg-arcDarkSurface/70">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-6 sm:px-6">
-          <div>
-            <p className="text-xs font-display uppercase tracking-[0.35em] text-arcBlack/80 dark:text-white">Open to work — India (UTC+5:30)</p>
+      <header ref={headerRef} className="sticky top-0 z-50 border-b-[3px] border-arcBlack bg-arcSand/70 backdrop-blur-md transition-colors dark:border-white dark:bg-arcDarkSurface/70">
+        <div className="mx-auto flex max-w-5xl flex-col items-start gap-3 px-4 py-4 sm:px-6">
+          <div className="flex flex-wrap items-center gap-2 text-sm">
+            <p className="text-xs font-display uppercase tracking-[0.35em] text-arcBlack/80 dark:text-white">Open to work — India</p>
+            <span className="font-mono text-xs text-arcBlack/80 dark:text-mint">{currentTime}</span>
+          </div>
+          <div className="flex flex-col gap-2">
             <div className="flex items-center gap-3">
               <h1 className="text-2xl font-display text-arcBlack sm:text-3xl dark:text-white">Bhushan Pawar</h1>
               <div className="flex items-center gap-2 text-xl text-arcBlack dark:text-white">
@@ -225,7 +275,7 @@ function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
-                  className="transition hover:text-arcRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arcRed/40 dark:hover:text-mint dark:focus-visible:outline-mint/40"
+                  className="text-[#181717] transition hover:text-arcRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arcRed/40 dark:text-white dark:hover:text-mint dark:focus-visible:outline-mint/40"
                 >
                   <FaGithub aria-hidden />
                 </a>
@@ -234,7 +284,7 @@ function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
-                  className="transition hover:text-arcRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arcRed/40 dark:hover:text-mint dark:focus-visible:outline-mint/40"
+                  className="text-[#0A66C2] transition hover:text-arcRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arcRed/40 dark:text-[#0A66C2] dark:hover:text-mint dark:focus-visible:outline-mint/40"
                 >
                   <FaLinkedinIn aria-hidden />
                 </a>
@@ -243,7 +293,7 @@ function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="transition hover:text-arcRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arcRed/40 dark:hover:text-mint dark:focus-visible:outline-mint/40"
+                  className="text-[#E4405F] transition hover:text-arcRed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arcRed/40 dark:text-[#E4405F] dark:hover:text-mint dark:focus-visible:outline-mint/40"
                 >
                   <FaInstagram aria-hidden />
                 </a>
@@ -251,8 +301,8 @@ function App() {
             </div>
             <p className="text-sm text-arcBlack/70 dark:text-white">Software Developer (Fresher)</p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <nav className="hidden items-center gap-4 text-xs font-display uppercase tracking-[0.35em] text-arcBlack/70 md:flex dark:text-white">
+          <div className="flex w-full flex-wrap items-center justify-end gap-3">
+            <nav className="hidden items-center gap-3 text-xs font-display uppercase tracking-[0.35em] text-arcBlack/70 md:flex dark:text-white">
               <a className="rounded-[14px] px-3 py-2 transition hover:bg-arcBlack hover:text-arcSand dark:hover:bg-arcDarkText dark:hover:text-white" href="#skills">
                 Skills
               </a>
@@ -428,13 +478,21 @@ function App() {
                     <dd>{project.outcome}</dd>
                   </div>
                 </dl>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <a href={project.live} target="_blank" rel="noopener noreferrer" className={buttonPrimary}>
-                    🔗 Visit Live
-                  </a>
-                  <a href={project.code} target="_blank" rel="noopener noreferrer" className={buttonGhost}>
-                    💻 View Code
-                  </a>
+                <div
+                  className={`mt-6 flex flex-wrap gap-3 ${
+                    project.buttonAlignment === 'center' ? 'justify-center' : ''
+                  }`}
+                >
+                  {project.live ? (
+                    <a href={project.live} target="_blank" rel="noopener noreferrer" className={buttonPrimary}>
+                      🔗 Visit Site
+                    </a>
+                  ) : null}
+                  {project.code ? (
+                    <a href={project.code} target="_blank" rel="noopener noreferrer" className={buttonGhost}>
+                      💻 View Code
+                    </a>
+                  ) : null}
                 </div>
               </article>
             ))}
