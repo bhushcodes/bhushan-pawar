@@ -119,12 +119,12 @@ const projects = [
 const socialLinks = [
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/bhushanpawar',
+    href: 'https://www.linkedin.com/in/bhush-codes',
     icon: FaLinkedinIn,
   },
   {
     label: 'GitHub',
-    href: 'https://github.com/bhushanpawar',
+    href: 'https://github.com/unifiltered.bhushan',
     icon: FaGithub,
   },
   {
@@ -271,7 +271,7 @@ function App() {
               <h1 className="text-2xl font-display text-arcBlack sm:text-3xl dark:text-white">Bhushan Pawar</h1>
               <div className="flex items-center gap-2 text-xl text-arcBlack dark:text-white">
                 <a
-                  href="https://github.com/bhushanpawar"
+                  href="https://github.com/bhushcodes"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
@@ -280,7 +280,7 @@ function App() {
                   <FaGithub aria-hidden />
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/bhushanpawar"
+                  href="https://www.linkedin.com/in/bhush-codes"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
@@ -289,7 +289,7 @@ function App() {
                   <FaLinkedinIn aria-hidden />
                 </a>
                 <a
-                  href="https://www.instagram.com/bhushan.codes"
+                  href="https://www.instagram.com/unfiltered.bhushan"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
