@@ -85,9 +85,9 @@ const projects = [
     title: 'Dynamic Solar System',
     tech: 'HTML, CSS, JavaScript',
     context: 'Built for school science clubs to help students explore planetary motion.',
-    problem: 'Designed orbit animations and made them mobile-friendly.',
-    role: 'Added accessibility features for better usability.',
-    outcome: 'Result: doubled student engagement and became the most revisited demo.',
+    problem: 'The only problem is I don’t have a job…! And if you find it, just contribute to it…!',
+    role: 'This is a dynamic website with fun to watch animations, there is a role for this…!',
+    outcome: 'Result: You will enjoy this…!',
     code: 'https://github.com/bhushcodes/solar-system-orbit-playground',
     live: 'https://bhushcodes.github.io/solar-system-orbit-playground/',
   },
@@ -96,9 +96,17 @@ const projects = [
     title: 'BhushanChessBot',
     tech: 'Python',
     context: 'A simple chess bot made to help learners understand move logic — no complex setup needed.',
-    problem: 'Wrote search algorithms and clear, step-by-step hints so practice stays transparent.',
-    role: 'Built CLI tooling and messaging so learners can stay focused while they experiment.',
-    outcome: 'Result: reduced analysis time by 40% and onboarded 20+ testers easily.',
+    problem: 'The only problem is I don’t have a job…! And if you find it, just contribute to it…!',
+    role: (
+      <>
+        It can play automatically on{' '}
+        <a href="https://lichess.org/" target="_blank" rel="noopener noreferrer">
+          lichess.org
+        </a>
+        …!
+      </>
+    ),
+    outcome: 'You will be impressed by its local performance…!',
     code: null,
     live: 'https://lichess.org/@/BhushanChessBot',
     buttonAlignment: 'center',
@@ -108,9 +116,9 @@ const projects = [
     title: 'Chess Academy',
     tech: 'HTML, CSS, JavaScript',
     context: 'A small marketing site for a community chess academy.',
-    problem: 'Created a responsive layout that works beautifully on all devices.',
-    role: 'Improved course visibility and accessibility (98 Lighthouse score).',
-    outcome: 'Result: helped increase newsletter sign-ups by 1.4x.',
+    problem: 'The only problem is I don’t have a job…! And if you find it, just contribute to it…!',
+    role: 'Don’t have any role but you can check…!',
+    outcome: 'It’s cool, just check it out and fill the form and I’ll reply to you…!',
     code: 'https://github.com/bhushcodes/bhushan-chess-academy',
     live: 'https://bhushcodes.github.io/bhushan-chess-academy/',
   },
@@ -120,6 +128,9 @@ const projects = [
     tech: 'Python, HTML/CSS, Tailwind',
     context:
       'A public, open-source platform for developers committing to the 100 Days of Code challenge — log progress, share updates, and inspire consistency.',
+    problem: 'The only problem is I don’t have a job…! And if you find it, just contribute to it…!',
+    role: 'It’s your tracker Notion…!',
+    outcome: 'Track your journey of 100 days of code…!',
     code: 'https://github.com/bhushcodes/100-days-of-code-tracker',
     live: 'https://100-days-of-code-tracker.netlify.app/',
     buttonAlignment: 'center',
