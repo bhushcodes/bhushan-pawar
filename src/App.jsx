@@ -114,6 +114,15 @@ const projects = [
     code: 'https://github.com/bhushcodes/bhushan-chess-academy',
     live: 'https://bhushcodes.github.io/bhushan-chess-academy/',
   },
+  {
+    id: '100-days-of-code',
+    title: '100 Days Of Code Tracker',
+    tech: 'Python, HTML/CSS, Tailwind',
+    context:
+      'A public, open-source platform for developers committing to the 100 Days of Code challenge — log progress, share updates, and inspire consistency.',
+    code: 'https://github.com/bhushcodes/100-days-of-code-tracker',
+    live: 'https://100-days-of-code-tracker.netlify.app/',
+  },
 ]
 
 const socialLinks = [
@@ -453,49 +462,55 @@ function App() {
           description="Each project below blends character, accessibility, and clear outcomes."
         >
           <div className="grid gap-6 lg:grid-cols-2">
-            {projects.map((project) => (
-              <article key={project.id} className={neoCard}>
-                <header className="space-y-2">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <h3 className="font-display text-xl text-arcBlack dark:text-white">{project.title}</h3>
-                    <span className="rounded-[14px] border-[3px] border-arcBlack bg-arcSand px-3 py-1 text-xs font-display uppercase tracking-[0.35em] text-arcBlack/80 dark:border-white dark:bg-arcDarkBg dark:text-white">
-                      {project.tech}
-                    </span>
-                  </div>
-                  <p className="text-sm text-arcBlack/80 dark:text-white">{project.context}</p>
-                </header>
-                <dl className="mt-4 space-y-3 text-sm text-arcBlack/80 dark:text-white">
-                  <div>
-                    <dt className="font-display text-xs uppercase tracking-[0.35em] text-arcBlack/60 dark:text-white">Problem</dt>
-                    <dd>{project.problem}</dd>
-                  </div>
-                  <div>
-                    <dt className="font-display text-xs uppercase tracking-[0.35em] text-arcBlack/60 dark:text-white">Role</dt>
-                    <dd>{project.role}</dd>
-                  </div>
-                  <div>
-                    <dt className="font-display text-xs uppercase tracking-[0.35em] text-arcBlack/60 dark:text-white">Impact</dt>
-                    <dd>{project.outcome}</dd>
-                  </div>
-                </dl>
-                <div
-                  className={`mt-6 flex flex-wrap gap-3 ${
-                    project.buttonAlignment === 'center' ? 'justify-center' : ''
-                  }`}
-                >
-                  {project.live ? (
-                    <a href={project.live} target="_blank" rel="noopener noreferrer" className={buttonPrimary}>
-                      🔗 Visit Site
-                    </a>
+            {projects.map((project) => {
+              const detailSections = [
+                { label: 'Problem', value: project.problem },
+                { label: 'Role', value: project.role },
+                { label: 'Impact', value: project.outcome },
+              ].filter((section) => Boolean(section.value))
+
+              return (
+                <article key={project.id} className={neoCard}>
+                  <header className="space-y-2">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <h3 className="font-display text-xl text-arcBlack dark:text-white">{project.title}</h3>
+                      <span className="rounded-[14px] border-[3px] border-arcBlack bg-arcSand px-3 py-1 text-xs font-display uppercase tracking-[0.35em] text-arcBlack/80 dark:border-white dark:bg-arcDarkBg dark:text-white">
+                        {project.tech}
+                      </span>
+                    </div>
+                    <p className="text-sm text-arcBlack/80 dark:text-white">{project.context}</p>
+                  </header>
+                  {detailSections.length > 0 ? (
+                    <dl className="mt-4 space-y-3 text-sm text-arcBlack/80 dark:text-white">
+                      {detailSections.map((section) => (
+                        <div key={section.label}>
+                          <dt className="font-display text-xs uppercase tracking-[0.35em] text-arcBlack/60 dark:text-white">
+                            {section.label}
+                          </dt>
+                          <dd>{section.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
                   ) : null}
-                  {project.code ? (
-                    <a href={project.code} target="_blank" rel="noopener noreferrer" className={buttonGhost}>
-                      💻 View Code
-                    </a>
-                  ) : null}
-                </div>
-              </article>
-            ))}
+                  <div
+                    className={`mt-6 flex flex-wrap gap-3 ${
+                      project.buttonAlignment === 'center' ? 'justify-center' : ''
+                    }`}
+                  >
+                    {project.live ? (
+                      <a href={project.live} target="_blank" rel="noopener noreferrer" className={buttonPrimary}>
+                        🔗 Visit Site
+                      </a>
+                    ) : null}
+                    {project.code ? (
+                      <a href={project.code} target="_blank" rel="noopener noreferrer" className={buttonGhost}>
+                        💻 View Code
+                      </a>
+                    ) : null}
+                  </div>
+                </article>
+              )
+            })}
           </div>
         </Section>
 
