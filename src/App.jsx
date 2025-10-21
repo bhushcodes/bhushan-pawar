@@ -588,7 +588,7 @@ function App() {
                   <a href="tel:+917219678798" className={buttonSecondary}>
                     💬 Call +91 7219678798
                   </a>
-                  <a href="/Bhushan_Pawar_Resume.pdf" className={buttonGhost} download>
+                  <a href="/BhushanPawarResume.pdf" className={buttonGhost} download>
                     📄 Download Resume
                   </a>
                 </div>
