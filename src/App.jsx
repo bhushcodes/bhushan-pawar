@@ -122,6 +122,7 @@ const projects = [
       'A public, open-source platform for developers committing to the 100 Days of Code challenge — log progress, share updates, and inspire consistency.',
     code: 'https://github.com/bhushcodes/100-days-of-code-tracker',
     live: 'https://100-days-of-code-tracker.netlify.app/',
+    buttonAlignment: 'center',
   },
 ]
 
@@ -468,9 +469,15 @@ function App() {
                 { label: 'Role', value: project.role },
                 { label: 'Impact', value: project.outcome },
               ].filter((section) => Boolean(section.value))
+              const buttonClasses = [
+                'mt-auto flex flex-wrap gap-3 pt-6',
+                project.buttonAlignment === 'center' ? 'justify-center' : '',
+              ]
+                .filter(Boolean)
+                .join(' ')
 
               return (
-                <article key={project.id} className={neoCard}>
+                <article key={project.id} className={`${neoCard} flex h-full flex-col`}>
                   <header className="space-y-2">
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <h3 className="font-display text-xl text-arcBlack dark:text-white">{project.title}</h3>
@@ -492,11 +499,7 @@ function App() {
                       ))}
                     </dl>
                   ) : null}
-                  <div
-                    className={`mt-6 flex flex-wrap gap-3 ${
-                      project.buttonAlignment === 'center' ? 'justify-center' : ''
-                    }`}
-                  >
+                  <div className={buttonClasses}>
                     {project.live ? (
                       <a href={project.live} target="_blank" rel="noopener noreferrer" className={buttonPrimary}>
                         🔗 Visit Site
