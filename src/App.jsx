@@ -245,37 +245,32 @@ function App() {
     setFormData((previous) => ({ ...previous, [field]: event.target.value }))
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
     if (formStatus === 'submitting') return
 
     setFormStatus('submitting')
-    setFormFeedback('')
+    setFormFeedback('Preparing WhatsApp message…')
 
-    const formElement = event.currentTarget
-    const submission = new FormData(formElement)
+    const { name, email, message } = formData
+    const whatsappNumber = '917219678798'
+    const whatsappText = `Hello Bhushan,\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`
 
     try {
-      const response = await fetch('https://formspree.io/f/xanpbkwb', {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: submission,
-      })
+      if (typeof window === 'undefined') throw new Error('Window unavailable')
 
-      if (response.ok) {
-        setFormStatus('success')
-        setFormFeedback('Message delivered!')
-        setFormData({ name: '', email: '', message: '' })
-        return
+      const openedWindow = window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
+      if (!openedWindow) {
+        window.location.href = whatsappUrl
       }
 
-      const data = await response.json().catch(() => null)
-      const message = data?.errors?.[0]?.message ?? 'Something went wrong. Please try again.'
-      setFormStatus('error')
-      setFormFeedback(message)
+      setFormStatus('success')
+      setFormFeedback('WhatsApp is opening—feel free to hit send!')
+      setFormData({ name: '', email: '', message: '' })
     } catch (error) {
       setFormStatus('error')
-      setFormFeedback('Network error. Please retry in a moment.')
+      setFormFeedback('Unable to open WhatsApp. Please try again or contact me directly.')
     }
   }
 
@@ -360,7 +355,7 @@ function App() {
               Crafting playful web experiences built for speed and accessibility
             </p>
             <p className="mt-4 max-w-2xl text-base text-arcBlack/80 dark:text-white">
-              I pair inclusive front-end engineering with animation thinking so products stay joyful without sacrificing performance.
+              I pair inclusive software engineering with animation thinking so products stay joyful without sacrificing performance.
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-3 text-xs font-display uppercase tracking-[0.35em] text-arcBlack/80 dark:text-white">
               <span className="rounded-[14px] border-[3px] border-arcBlack bg-white px-3 py-2 dark:border-white dark:bg-arcDarkSurface dark:text-white">
@@ -402,7 +397,7 @@ function App() {
             <ul className="mt-4 space-y-3 text-sm text-arcBlack/80 dark:text-white">
               <li className="flex items-start gap-3">
                 <span className="mt-1 inline-block h-3 w-3 rounded-sm bg-arcRed" aria-hidden />
-                Build interactive, accessible front-ends that look great on any device.
+                Build interactive, accessible software experiences that look great on any device.
               </li>
               <li className="flex items-start gap-3">
                 <span className="mt-1 inline-block h-3 w-3 rounded-sm bg-mint" aria-hidden />
@@ -418,7 +413,7 @@ function App() {
                 Availability
               </p>
               <p className="mt-3">
-                I enjoy working with early teams and startups where thoughtful front-end craft can shape the product.
+                I enjoy working with early teams and startups where thoughtful software craft can shape the product.
               </p>
             </div>
           </div>
@@ -427,11 +422,11 @@ function App() {
         <Section
           id="about"
           eyebrow="👋 About Me"
-          title="Hi, I'm Bhushan — a front-end developer who loves building clean, interactive, and user-friendly web experiences."
+          title="Hi, I'm Bhushan — a software developer who loves building clean, interactive, and user-friendly web experiences."
           description="I focus on making websites that feel good to use — fast, accessible, and full of character."
         >
           <p className="max-w-3xl text-base text-arcBlack/80 dark:text-white">
-            I enjoy working with early teams and startups where front-end craft can really shape the product and how people feel using it.
+            I enjoy working with early teams and startups where software craft can really shape the product and how people feel using it.
           </p>
         </Section>
 
@@ -531,8 +526,8 @@ function App() {
         <Section
           id="contact"
           eyebrow="📬 Let's Connect"
-          title="I'm currently open for full-time or internship roles where thoughtful front-end development makes a real impact."
-          description="Or just drop a message — I usually reply within a day."
+          title="I'm currently open for full-time or internship roles where thoughtful software development makes a real impact."
+          description="Submit the form to jump into a WhatsApp chat — I usually reply within a day."
         >
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
             <form onSubmit={handleSubmit} className={neoCard}>
@@ -605,7 +600,7 @@ function App() {
                   ) : null}
                 </div>
                 <p className="text-sm text-arcBlack/70 dark:text-white">
-                  Tell me about the interface you need and I'll get back to you within one business day.
+                  Tell me about the interface you need and WhatsApp will open so you can send it directly.
                 </p>
               </div>
             </form>
@@ -625,7 +620,7 @@ function App() {
               <div className={`${neoCard} bg-white text-arcBlack dark:bg-arcDarkSurface dark:text-white`}>
                 <p className="text-xs font-display uppercase tracking-[0.35em] text-arcBlack/70 dark:text-white">Why Bhushan?</p>
                 <p className="mt-3 text-base">
-                  I translate playful briefs into resilient front-end systems, keeping accessibility, performance, and delivery speed in balance.
+                  I translate playful briefs into resilient software systems, keeping accessibility, performance, and delivery speed in balance.
                 </p>
               </div>
             </div>
@@ -633,7 +628,7 @@ function App() {
         </Section>
 
         <p className="text-center text-sm text-arcBlack/70 dark:text-white">
-          ✨ I bring energy, precision, and empathy to front-end development — balancing accessibility, performance, and playful design.
+          ✨ I bring energy, precision, and empathy to software development — balancing accessibility, performance, and playful design.
         </p>
       </main>
 
