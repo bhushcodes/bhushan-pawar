@@ -123,16 +123,15 @@ const projects = [
     live: 'https://bhushcodes.github.io/bhushan-chess-academy/',
   },
   {
-    id: '100-days-of-code',
-    title: '100 Days Of Code Tracker',
-    tech: 'Python, HTML/CSS, Tailwind',
-    context:
-      'A public, open-source platform for developers committing to the 100 Days of Code challenge — log progress, share updates, and inspire consistency.',
+    id: 'gym-tracker',
+    title: 'GymTracker',
+    tech: 'HTML, CSS, JavaScript, Firebase',
+    context: 'A workout tracking platform with real Firebase Google Authentication and private Cloud Firestore sync.',
     problem: 'The only problem is I don’t have a job…! And if you find it, just contribute to it…!',
-    role: 'It’s your tracker Notion…!',
-    outcome: 'Track your journey of 100 days of code…!',
-    code: 'https://github.com/bhushcodes/100-days-of-code-tracker',
-    live: 'https://100-days-of-code-tracker.netlify.app/',
+    role: 'Track workout progress, authenticate securely, and sync fitness data in real time.',
+    outcome: 'Log exercises, maintain workout history, and keep private fitness data synced across devices…!',
+    code: null,
+    live: 'https://gymtrackerbuddy.netlify.app/',
     buttonAlignment: 'center',
   },
 ]
@@ -268,7 +267,7 @@ function App() {
       setFormStatus('success')
       setFormFeedback('WhatsApp is opening—feel free to hit send!')
       setFormData({ name: '', email: '', message: '' })
-    } catch (error) {
+    } catch {
       setFormStatus('error')
       setFormFeedback('Unable to open WhatsApp. Please try again or contact me directly.')
     }
