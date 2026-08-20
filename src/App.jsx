@@ -130,9 +130,8 @@ const projects = [
     problem: 'The only problem is I don’t have a job…! And if you find it, just contribute to it…!',
     role: 'Track workout progress, authenticate securely, and sync fitness data in real time.',
     outcome: 'Log exercises, maintain workout history, and keep private fitness data synced across devices…!',
-    code: null,
+    code: 'https://github.com/bhushcodes/gym-tracker-app',
     live: 'https://gymtrackerbuddy.netlify.app/',
-    buttonAlignment: 'center',
   },
 ]
 
